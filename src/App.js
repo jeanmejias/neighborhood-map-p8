@@ -9,8 +9,7 @@ class App extends Component {
 
   componentDidMount() {
     this.getveneus()
-    this.renderMap()
-  }
+     }
 
   renderMap = () => {
     loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyAtUrZiNp3fTVPcCyaEr2cMRUeTc6JJ_Ec&callback=initMap')
@@ -31,20 +30,32 @@ class App extends Component {
     .then(response => {
      this.setState({
        venues: response.data.response.groups[0].items
-     })
+     }, this.renderMap())
     })
     .catch(error =>{
       console.log('ERROR!! ' + error)
     })
   }
-
+// Create a map
   initMap = () => {
     var map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8
     });
-  }
+// Display markers 
+    this.state.venues.map(myVenue => {
 
+      // Create markers on the map
+      var marker = new window.google.maps.Marker({
+        position:{lat: myVenue.venue.location.lat, lng:
+           myVenue.venue.location.lng},
+        map: map,
+        title: myVenue.venue.name
+        
+        })
+      })
+  }
+//create a map div
   render() {
     return (
       <main>
