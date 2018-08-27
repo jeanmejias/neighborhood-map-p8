@@ -58,7 +58,7 @@ this.state.venues.map(myVenue => {
     title: myVenue.venue.name
   })
 
-  // Click on A Marker!
+  // Click on a Marker
   marker.addListener('click', function() {
 
     // Change the content
