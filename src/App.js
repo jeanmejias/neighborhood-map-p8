@@ -42,19 +42,35 @@ class App extends Component {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8
     });
-// Display markers 
-    this.state.venues.map(myVenue => {
 
-      // Create markers on the map
-      var marker = new window.google.maps.Marker({
-        position:{lat: myVenue.venue.location.lat, lng:
-           myVenue.venue.location.lng},
-        map: map,
-        title: myVenue.venue.name
-        
-        })
-      })
-  }
+/// Create An InfoWindow for markers
+var infowindow = new window.google.maps.InfoWindow()
+
+// Display Dynamic Markers on the map
+this.state.venues.map(myVenue => {
+
+  var contentString = `${myVenue.venue.name}`
+
+  // Create A Marker
+  var marker = new window.google.maps.Marker({
+    position: {lat: myVenue.venue.location.lat , lng: myVenue.venue.location.lng},
+    map: map,
+    title: myVenue.venue.name
+  })
+
+  // Click on A Marker!
+  marker.addListener('click', function() {
+
+    // Change the content
+    infowindow.setContent(contentString)
+
+    // Open An InfoWindow
+    infowindow.open(map, marker)
+  })
+
+})
+
+}
 //create a map div
   render() {
     return (
