@@ -1,81 +1,44 @@
-
-import React, {Component} from 'react';
-
-class sideBar extends Component {
-
-    constructor() {
-        super();
-
-        this.state = {
-            info: '',
-            markers: [],
-            query: ''
-        };
-    }
-
-    componentDidMount() {
-        this.setState({markers: this.props.veneus});
-    }
-
-    open = () => {
-        const sideBar = document.querySelector('.sideBar');
-
-        sideBar.style.display === 'none' ? sideBar.style.display = 'block' : sideBar.style.display = 'none';
-    }
-
-    search = (event) => {
-        const query = event.target.value.toLowerCase();
-        const markers = this.props.veneus;
-        const newMarkers = [];
-
-        markers.forEach(function (marker) {
-            if (marker.title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
-                marker.setVisible(true);
-                newMarkers.push(marker);
-            } else {
-                marker.setVisible(false);
-            }
-        });
-
-        this.setState({markers: newMarkers});
-    }
+import React, { Component } from 'react';
 
 
-    openMarker(marker) {
-        console.log(marker);
-        this.props.openInfo(marker);
-    }
+class Sidebar extends Component {
+  constructor() {
+    super();
+  }
 
-    render() {
+  componentDidMount() {
+    // console.log(this);
+  }
 
-        return (
-            <div>
-                <div className="veggieburgers" onClick={this.open}>
-                    <div className="veggieline"></div>
-                    <div className="veggieline"></div>
-                    <div className="veggieline"></div>
-                </div>
-                <div className="sideBar">
-                    <div className="form" role="form">
-                        <input type="text"
-                               aria-labelledby="filter" placeholder="Search..."
-                               className="input" role="search"
-                               onChange={this.search}/>
-                    </div>
-                    <ul>
-                        {this.state.markers && this.state.markers.length && this.state.markers.map((marker, i) =>
-                            <li key={i}>
-                                <a href="#" onKeyPress={this.props.openInfo.bind(this, marker)}
-                                   onClick={this.props.openInfo.bind(this, marker)}
-                                tabIndex="0" role="button">{marker.title}</a>
-                            </li>
-                        )}
+  // onClick={() => { self.props.liPlaceClick(place) }}
 
-                    </ul>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    let displaySidebar = this.props.sidebarOpen ? "block" : "none";
+    let self = this;
+    return (
+      <div id="sidebar" style={{ display: displaySidebar }}>
+        <ul id="places-list">
+          {
+            this.props.places && Object.keys(self.props.places).map(function(key){
+              let place = self.props.places[key];
+              return (
+                <li className="transition" title={ place.name } key={ place.id } onClick={() => { self.props.liPlaceClick(place) }}>
+                  <h4><strong>{ place.name }</strong></h4>
+                  <p>
+                    { place.location.address }<br/>
+                    { place.location.crossStreet && place.location.crossStreet }<br/>
+                    { place.location.city }, { place.location.state } { place.location.postalCode && place.location.postalCode }<br/>
+                    { place.location.country }<br/>
+                  </p>
+                  <p>{ place.hereNow.count } | { place.hereNow.summary }</p>
+                </li>
+              )
+            })
+          }
+        </ul>
+      </div>
+    );
+  }
 }
 
-export default sideBar;
+export default Sidebar;
