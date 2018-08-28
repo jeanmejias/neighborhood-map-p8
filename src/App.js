@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
+import Sidebar from './sideBar';
 
 class App extends Component {
   state = {
@@ -75,7 +76,7 @@ this.state.venues.map(myVenue => {
   render() {
     return (
       <main>
-<div id='map'></div> 
+<div id='map' role ='aplication'></div> 
       </main>
       
     )
