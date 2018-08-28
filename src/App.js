@@ -1,97 +1,81 @@
 import React, { Component } from 'react';
+import logo from './logo.svg';
 import './App.css';
-import axios from 'axios'
-import Sidebar from './sideBar';
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+
+import GoogleMap from './components/Map'
+import Nav from './components/Nav'
+import Sidebar from './components/Sidebar'
+
+
 
 class App extends Component {
-  state = {
-    venues: []
+  constructor() {
+    super();
+    this.state = {
+      places: null,
+      markers: null,
+      sidebarOpen: false,
+      lastClickedPlace: null,
+      lastClickedMarker: null,
+    }
+    this.toggleSideBar = this.toggleSideBar.bind(this);
+    this.loadPlaces = this.loadPlaces.bind(this);
+    this.liPlaceClick = this.liPlaceClick.bind(this);
+  }
+
+  toggleSideBar(bool) {
+    this.setState({ sidebarOpen: bool || !this.state.sidebarOpen });
+  }
+
+  loadPlaces() {
+    let city = 'loughborough';
+    let query = 'Shopping';
+    var apiURL = 'https://api.foursquare.com/v2/venues/search?client_id=TX2XNCPJB4CNCKBRSVGRMFTVGZOKT1HXNZ2NFB5ANKIVDG4M&client_secret=CNCU2ZYY4DLW2VXMN231ZRYV2USO0LVZOLWC0E5KG1LLMJ3W&v=20180323%20&limit=33&near=' + city + '&query=' + query + '';
+
+    return fetch(apiURL)
+    .then(function(resp){ return resp.json() })
+    .then(function(json){ return Promise.resolve(json); })
   }
 
   componentDidMount() {
-    this.getveneus()
-     }
-
-  renderMap = () => {
-    loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyAtUrZiNp3fTVPcCyaEr2cMRUeTc6JJ_Ec&callback=initMap')
-    window.initMap = this.initMap
-  }
-
-  getveneus = () => {
-    const endPoint = 'https://api.foursquare.com/v2/venues/explore?'
-    const parameters = {
-      client_id: 'TX2XNCPJB4CNCKBRSVGRMFTVGZOKT1HXNZ2NFB5ANKIVDG4M',
-      client_secret:'CNCU2ZYY4DLW2VXMN231ZRYV2USO0LVZOLWC0E5KG1LLMJ3W',
-      query:'food',
-      near:'loughborough',
-      v: '20180323'
-    }
-
-    axios.get(endPoint + new URLSearchParams(parameters))
-    .then(response => {
-     this.setState({
-       venues: response.data.response.groups[0].items
-     }, this.renderMap())
-    })
-    .catch(error =>{
-      console.log('ERROR!! ' + error)
+    let self = this;
+    self.loadPlaces()
+    .then(function(data){
+      let places = {};
+      let markers = {};
+      for(let venue of data.response.venues) {
+        places[venue.id] = venue;
+      }
+      self.setState({ places: places, markers: markers, sidebarOpen: true }, () => {
+        // console.log(self);
+      })
     })
   }
-// Create a map
-  initMap = () => {
-    var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 8
-    });
 
-/// Create An InfoWindow for markers
-var infowindow = new window.google.maps.InfoWindow()
+  liPlaceClick(place) {
+    this.setState({ lastClickedPlace: place });
+  }
 
-// Display Dynamic Markers on the map
-this.state.venues.map(myVenue => {
-
-  var contentString = `${myVenue.venue.name}`
-
-  // Create A Marker
-  var marker = new window.google.maps.Marker({
-    position: {lat: myVenue.venue.location.lat , lng: myVenue.venue.location.lng},
-    map: map,
-    title: myVenue.venue.name
-  })
-
-  // Click on a Marker
-  marker.addListener('click', function() {
-
-    // Change the content
-    infowindow.setContent(contentString)
-
-    // Open An InfoWindow
-    infowindow.open(map, marker)
-  })
-
-})
-
-}
-//create a map div
   render() {
     return (
-      <main>
-<div id='map' role ='aplication'></div> 
-      </main>
-      
-    )
+      <div id="app-container">
+        <Nav
+          sidebarOpen={this.state.sidebarOpen}
+          toggleSideBar={this.toggleSideBar} />
+
+        <Sidebar
+          liPlaceClick={this.liPlaceClick}
+          sidebarOpen={this.state.sidebarOpen}
+          toggleSideBar={this.toggleSideBar}
+          places={this.state.places} />
+
+        <GoogleMap
+          places={this.state.places}
+          lastClickedPlace={this.state.lastClickedPlace} />
+      </div>
+    );
   }
 }
-
-
-function loadScript(url) {
-  var index  = window.document.getElementsByTagName('script')[0]
-  var script = window.document.createElement('script')
-  script.src = url
-  script.async = true
-  script.defer = true 
-  index.parentNode.insertBefore(script, index)
-}
-
 
 export default App;
