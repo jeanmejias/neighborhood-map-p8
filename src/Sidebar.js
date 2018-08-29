@@ -32,7 +32,7 @@ class Sidebar extends Component {
                         id="search"
                         type='text'
                         placeholder='Search locations'
-                        aria-label='Search for art locations in Lyon'
+                        aria-label='Search for art locations in Loughbotough'
                         value={this.state.query}
                         onChange={(event) => this.props.updateQuery(event.target.value)}
                     />

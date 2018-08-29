@@ -67,12 +67,6 @@ class App extends Component {
     }
 
 
-    /**
-     * I used Elharony's tutorial to fix a problem that I had in creating my
-     * markers. Thanks to his tutorial, I found out that the asynchronous
-     * data fetching from the Foursquare API was the culprit:
-     * https://www.youtube.com/watch?v=_1RjbT5dIeM&list=PLgOB68PvvmWCGNn8UMTpcfQEiITzxEEA1&index=5
-    */
     addMarkers = () => {
         const allMarkers = this.state.foursquareVenues
             .map(myVenue => {
