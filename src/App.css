@@ -1,111 +1,123 @@
 body {
-  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: aquamarine;
 }
 
-.App {
-  text-align: center;
+#map {
+  position: absolute;
+  top: 0%;
+  bottom: 0;
+  width: 70%;
+  margin-left: 30%;
+  margin-right: 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+#background {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  font-size: 2rem;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.mapboxgl-marker:hover {
+  opacity: 0.7;
+  cursor: pointer;
 }
 
-.App-title {
-  font-size: 1.5em;
+.mapboxgl-popup {
+  width: 250px;
 }
 
-.App-intro {
-  font-size: large;
+.mapboxgl-popup-content {
+  font-size: 1rem;
 }
 
-.transition {
-  -webkit-transition: transition 0.3s;
-  -moz-transition: transition 0.3s;
-  -o-transition: transition 0.3s;
-  -ms-transition: transition 0.3s;
-  transition: 0.3s;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* --- */
-
-#navbar {
-  position: relative;
-  z-index: 100;
-  box-shadow: 0px 1px 1px grey;
-  background: black;
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 #sidebar {
   position: absolute;
-  z-index: 100;
-  box-shadow: 0px 1px 1px grey;
-  background: #05c2f1;
-  width: 325px;
-  max-width: 100%;
-  height: calc(100vh - 60px);
-  overflow-y: scroll;
-  padding: 10px;
+  width: 30%;
+  height: 100%;
+  background-image: linear-gradient( rgb(240, 243, 241), rgb(213, 247, 243), grey);
+  /*background-color: mediumseagreen;*/
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.art-lyon {
+  margin-left: 40px;
+}
+
+.credits {
+  margin-left: 40px;
+}
+
+.location-list-item {
+  list-style: none outside;
+  font-size: 1.3rem;
+  margin-right: 30px;
+  /*display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;*/
+}
+
+.search-locations {
+  margin: 15px 40px 0px 40px;
+  height: 30px;
+  width: 75%;
+  padding: 10px 10px 10px 30px;
+  font-size: 1.2rem;
+}
+
+.sidebar-button {
+  height: 25px;
+  margin-right: 20px;
+  font-size: 1.2rem;
+}
+
+/**
+ * Make site responsive to *very* small phones
+ */
+@media screen and (max-width: 350px){
+
+  #search {
+    width: 300px;
+  }
+
+  body {
+    font-size: 1rem;
+  }
 }
 
 
-#head-text {
-  margin: 0px;
-  color: white;
-  height: 60px;
-  line-height: 60px;
-  vertical-align: middle;
-  padding: 0px 20px;
-  word-spacing: 1.5px;
-  letter-spacing: 1.5px;
-  display: inline-block;
+/*
+ * Make site responsive to small phones
+ */
+@media screen and (max-width: 400px){
+
+  #search {
+    width: 360px;
+  }
 }
 
-#menu-text {
-  float: right;
-  margin: 0px;
-  color: white;
-  height: 60px;
-  line-height: 60px;
-  vertical-align: middle;
-  padding: 0px 20px;
-  word-spacing: 1.5px;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-}
-#menu-text:hover {
-  background: #f77e7e;
-  color: black;
+/*
+ * Make site responsive to phones
+ */
+@media screen and (min-width: 401px) and (max-width: 600px){
+
 }
 
-#places-list {
-  margin: 0px;
-  padding: 5px;
-  width: 100%;
-}
+/*
+ * Make site responsive to tablets
+ */
+@media screen and (min-width: 601px) and (max-width: 800px){
 
-#places-list li {
-  list-style: none;
-  padding: 10px;
-  margin: 15px 0px;
-  border: 1px solid grey;
-  box-shadow: 0px 1px 1px grey;
-  background: white;
-  cursor: pointer;
-}
-
-#places-list li:hover {
-  background: lightgrey;
 }

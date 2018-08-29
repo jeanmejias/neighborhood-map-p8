@@ -6,10 +6,15 @@
     "axios": "^0.18.0",
     "google-map-react": "^1.0.6",
     "google-maps-react": "^2.0.2",
+    "jquery": "^3.3.1",
+    "mapbox": "^1.0.0-beta10",
+    "mapbox-gl": "^0.48.0",
     "react": "^16.4.2",
     "react-bootstrap": "^0.32.3",
     "react-dom": "^16.4.2",
-    "react-scripts": "1.1.5"
+    "react-mapbox-gl": "^3.9.1",
+    "react-scripts": "1.1.5",
+    "sortby": "0.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
